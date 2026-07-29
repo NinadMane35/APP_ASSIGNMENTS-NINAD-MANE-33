@@ -1,0 +1,74 @@
+from abc import ABC, abstractmethod
+
+# Strategy Interface
+class TransactionMethod(ABC):
+    @abstractmethod
+    def execute_transaction(self, total):
+        pass
+
+# Concrete Strategy 1
+class VisaCardTransaction(TransactionMethod):
+    def execute_transaction(self, total):
+        print(f"Transaction of ${total} completed via Visa Card.")
+
+# Concrete Strategy 2
+class MaestroCardTransaction(TransactionMethod):
+    def execute_transaction(self, total):
+        print(f"Transaction of ${total} completed via Maestro Card.")
+
+# Concrete Strategy 3
+class GooglePayTransaction(TransactionMethod):
+    def execute_transaction(self, total):
+        print(f"Transaction of ${total} completed via Google Pay.")
+
+# Concrete Strategy 4
+class OnlineBankTransaction(TransactionMethod):
+    def execute_transaction(self, total):
+        print(f"Transaction of ${total} completed via Online Banking.")
+
+# Context Class
+class TransactionManager:
+    def __init__(self, method=None):
+        self.method = method
+
+    def update_method(self, method):
+        self.method = method
+
+    def make_transaction(self, total):
+        if self.method is None:
+            print("Please choose a transaction method.")
+        else:
+            self.method.execute_transaction(total)
+
+# Driver Code
+manager = TransactionManager()
+
+while True:
+    print("\n===== Transaction Handling System =====")
+    print("1. Visa Card")
+    print("2. Maestro Card")
+    print("3. Google Pay")
+    print("4. Online Banking")
+    print("5. Quit")
+
+    selection = int(input("Enter your selection: "))
+
+    if selection == 5:
+        print("Thank you for using the Transaction System!")
+        break
+
+    total = float(input("Enter transaction total: "))
+
+    if selection == 1:
+        manager.update_method(VisaCardTransaction())
+    elif selection == 2:
+        manager.update_method(MaestroCardTransaction())
+    elif selection == 3:
+        manager.update_method(GooglePayTransaction())
+    elif selection == 4:
+        manager.update_method(OnlineBankTransaction())
+    else:
+        print("Invalid selection!")
+        continue
+
+    manager.make_transaction(total)
