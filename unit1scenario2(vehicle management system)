@@ -1,10 +1,9 @@
 class Vehicle:
     def __init__(self, vehicle_number, brand, price):
-        # Instance variables - separate copy for every object
         self.vehicle_number = vehicle_number
         self.brand = brand
         self.price = price
-        self.category = self.get_category()   # category decided at creation time
+        self.category = self.get_category()   
  
     def get_category(self):
         """Categorize the vehicle based on its price."""
@@ -14,19 +13,16 @@ class Vehicle:
             return "Economy"
  
     def __str__(self):
-        # Magic method - defines how the object is displayed with print()
         return (f"Vehicle No: {self.vehicle_number:<12} | Brand: {self.brand:<10} | "
                 f"Price: Rs.{self.price:<10} | Category: {self.category}")
  
  
-# ---------------------------------------------------
-# Showroom class
-# ---------------------------------------------------
+
 class Showroom:
     def __init__(self, showroom_name):
         self.showroom_name = showroom_name
-        self.vehicles = []          # instance variable holding list of Vehicle objects
- 
+        self.vehicles = []          
+
     def add_vehicle(self, vehicle):
         """Add a Vehicle object to the showroom."""
         self.vehicles.append(vehicle)
@@ -42,21 +38,18 @@ class Showroom:
             print(f"{index}. {vehicle}")
  
  
-# ---------------------------------------------------
-# Driver Code
-# ---------------------------------------------------
+
 if __name__ == "__main__":
-    # Creating Showroom object
     my_showroom = Showroom("Ninad Auto Showroom")
  
-    # Creating Vehicle objects
+    
     v1 = Vehicle("V001", "BMW", 2500000)
     v2 = Vehicle("V002", "Maruti Suzuki", 700000)
     v3 = Vehicle("V003", "Mercedes-Benz", 4500000)
     v4 = Vehicle("V004", "Hyundai", 850000)
     v5 = Vehicle("V005", "Tata", 950000)
  
-    # Adding vehicles to the showroom
+   
     my_showroom.add_vehicle(v1)
     my_showroom.add_vehicle(v2)
     my_showroom.add_vehicle(v3)
