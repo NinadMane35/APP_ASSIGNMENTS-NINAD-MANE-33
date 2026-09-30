@@ -7,6 +7,7 @@ print("Original Array:")
 print(arr)
 
 
+
 print("\nFirst 5 elements:")
 print(arr[:5])
 
