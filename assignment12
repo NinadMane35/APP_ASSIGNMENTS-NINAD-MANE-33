@@ -1,0 +1,187 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+data = pd.read_csv("customer_churn.csv")
+
+print("Customer Churn Dataset:")
+print(data.head())
+
+
+
+print("\nSize of dataset:")
+print(data.shape)
+
+print("\nFeatures in dataset:")
+print(data.columns)
+
+print("\nInformation about dataset:")
+data.info()
+
+
+
+print("\nMissing values:")
+print(data.isna().sum())
+
+
+
+
+print("\nDuplicate rows:")
+print(data.duplicated().sum())
+
+data = data.drop_duplicates()
+
+
+
+# Numerical columns
+num_cols = data.select_dtypes(include=np.number).columns
+
+for col in num_cols:
+    data[col] = data[col].fillna(data[col].median())
+
+
+# Categorical columns
+cat_cols = data.select_dtypes(include="object").columns
+
+for col in cat_cols:
+    data[col] = data[col].fillna(data[col].mode()[0])
+
+
+print("\nMissing values after cleaning:")
+print(data.isna().sum())
+
+
+
+
+print("\nStatistical Summary:")
+print(data.describe())
+
+
+
+
+monthly_average = np.mean(data["MonthlyCharges"])
+
+print("\nMean Monthly Charges:")
+print(monthly_average)
+
+
+
+tenure_average = np.mean(data["Tenure"])
+
+print("\nMean Customer Tenure:")
+print(tenure_average)
+
+
+
+churn_count = data["Churn"].value_counts()
+
+print("\nChurn Details:")
+print(churn_count)
+
+
+
+
+churn_percent = (churn_count / len(data)) * 100
+
+print("\nChurn Percentage:")
+print(churn_percent)
+
+
+
+plt.figure()
+
+churn_count.plot(kind="bar")
+
+plt.title("Customer Churn")
+plt.xlabel("Churn Status")
+plt.ylabel("Customer Count")
+
+plt.show()
+
+
+plt.figure()
+
+plt.hist(data["MonthlyCharges"], bins=10)
+
+plt.title("Monthly Charges Distribution")
+plt.xlabel("Monthly Charges")
+plt.ylabel("Frequency")
+
+plt.show()
+
+
+plt.figure()
+
+plt.hist(data["Tenure"], bins=10)
+
+plt.title("Customer Tenure Distribution")
+plt.xlabel("Tenure")
+plt.ylabel("Number of Customers")
+
+plt.show()
+
+
+
+contract_data = pd.crosstab(data["Contract"], data["Churn"])
+
+print("\nContract-wise Churn:")
+print(contract_data)
+
+plt.figure()
+
+contract_data.plot(kind="bar")
+
+plt.title("Churn by Contract Type")
+plt.xlabel("Contract Type")
+plt.ylabel("Number of Customers")
+
+plt.xticks(rotation=0)
+
+plt.show()
+
+
+charge_comparison = data.groupby("Churn")["MonthlyCharges"].mean()
+
+print("\nAverage Monthly Charges:")
+print(charge_comparison)
+
+plt.figure()
+
+charge_comparison.plot(kind="bar")
+
+plt.title("Monthly Charges According to Churn")
+plt.xlabel("Churn")
+plt.ylabel("Average Monthly Charges")
+
+plt.xticks(rotation=0)
+
+plt.show()
+
+
+
+corr_data = data[num_cols].corr()
+
+print("\nCorrelation Matrix:")
+print(corr_data)
+
+plt.figure()
+
+plt.imshow(corr_data)
+
+plt.colorbar()
+
+plt.xticks(
+    range(len(corr_data.columns)),
+    corr_data.columns,
+    rotation=45
+)
+
+plt.yticks(
+    range(len(corr_data.columns)),
+    corr_data.columns
+)
+
+plt.title("Correlation Between Numerical Variables")
+
+plt.show()
