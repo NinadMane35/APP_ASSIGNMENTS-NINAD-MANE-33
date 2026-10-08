@@ -1,0 +1,78 @@
+import csv
+import re
+
+def read_customers():
+    customers = []
+
+    with open("customers.csv", "r") as file:
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            customers.append(row)
+
+    return customers
+
+
+def display_customers(customers):
+    print("\n--- All Customer Details ---")
+
+    for customer in customers:
+        print("Account Number :", customer["AccountNumber"])
+        print("Name           :", customer["Name"])
+        print("Account Type   :", customer["AccountType"])
+        print("Balance        :", customer["Balance"])
+        print("----------------------------")
+
+
+def search_by_account(customers):
+    account = input("Enter Account Number: ")
+
+    for customer in customers:
+        if customer["AccountNumber"] == account:
+            print("\nCustomer Found!")
+            print("Account Number :", customer["AccountNumber"])
+            print("Name           :", customer["Name"])
+            print("Account Type   :", customer["AccountType"])
+            print("Balance        :", customer["Balance"])
+            return
+
+    print("Customer not found.")
+
+
+def validate_account_number():
+    account = input("Enter Account Number: ")
+
+    pattern = "^[0-9]{5}$"
+
+    if re.match(pattern, account):
+        print("Valid Account Number")
+    else:
+        print("Invalid Account Number")
+
+
+customers = read_customers()
+
+while True:
+    print("\n===== Bank Customer Record System =====")
+    print("1. Display All Customers")
+    print("2. Search by Account Number")
+    print("3. Validate Account Number")
+    print("4. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        display_customers(customers)
+
+    elif choice == "2":
+        search_by_account(customers)
+
+    elif choice == "3":
+        validate_account_number()
+
+    elif choice == "4":
+        print("Thank you!")
+        break
+
+    else:
+        print("Invalid choice.")
