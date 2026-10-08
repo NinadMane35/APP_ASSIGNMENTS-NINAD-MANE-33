@@ -1,0 +1,89 @@
+import csv
+import re
+
+def read_movies():
+    movies = []
+
+    with open("movies.csv", "r") as file:
+        reader = csv.DictReader(file)
+
+        for row in reader:
+            movies.append(row)
+
+    return movies
+
+
+def display_movies(movies):
+    print("\n--- All Movie Records ---")
+
+    for movie in movies:
+        print("Movie ID :", movie["MovieID"])
+        print("Title    :", movie["Title"])
+        print("Genre    :", movie["Genre"])
+        print("Year     :", movie["Year"])
+        print("Rating   :", movie["Rating"])
+        print("------------------------")
+
+
+def search_by_id(movies):
+    movie_id = input("Enter Movie ID: ")
+
+    for movie in movies:
+        if movie["MovieID"] == movie_id:
+            print("\nMovie Found!")
+            print("Movie ID :", movie["MovieID"])
+            print("Title    :", movie["Title"])
+            print("Genre    :", movie["Genre"])
+            print("Year     :", movie["Year"])
+            print("Rating   :", movie["Rating"])
+            return
+
+    print("Movie not found.")
+
+
+def search_by_title(movies):
+    title = input("Enter movie title to search: ")
+
+    pattern = re.compile(title, re.IGNORECASE)
+    found = False
+
+    for movie in movies:
+        if pattern.search(movie["Title"]):
+            print("\nMovie Found!")
+            print("Movie ID :", movie["MovieID"])
+            print("Title    :", movie["Title"])
+            print("Genre    :", movie["Genre"])
+            print("Year     :", movie["Year"])
+            print("Rating   :", movie["Rating"])
+            found = True
+
+    if not found:
+        print("No movie found.")
+
+
+movies = read_movies()
+
+while True:
+    print("\n===== Movie Collection System =====")
+    print("1. Display All Movies")
+    print("2. Search Movie by Movie ID")
+    print("3. Search Movie by Title")
+    print("4. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        display_movies(movies)
+
+    elif choice == "2":
+        search_by_id(movies)
+
+    elif choice == "3":
+        search_by_title(movies)
+
+    elif choice == "4":
+        print("Thank you!")
+        break
+
+    else:
+        print("Invalid choice.")
