@@ -1,0 +1,28 @@
+"""Hospital Treatment Cost Analysis System"""
+
+import numpy as np
+import pandas as pd
+
+# 1. NumPy array of treatment costs (in ₹)
+costs = np.array([12500, 25000, 18000, 32000, 9500, 21000, 15000, 40000])
+
+# 2. Mean, maximum and minimum treatment cost
+print("Treatment Cost Statistics")
+print("-------------------------")
+print(f"Mean cost    : ₹{np.mean(costs):,.2f}")
+print(f"Maximum cost : ₹{np.max(costs):,}")
+print(f"Minimum cost : ₹{np.min(costs):,}")
+
+# 3. Pandas DataFrame
+patients = ["Aarav", "Diya", "Rohan", "Sneha", "Kabir", "Meera", "Arjun", "Ishita"]
+df = pd.DataFrame({
+    "Patient": patients,
+    "Treatment_Cost": costs,
+})
+print("\nAll Patients")
+print(df.to_string(index=False))
+
+# 4. Patients whose treatment cost exceeds ₹20,000
+high_cost = df[df["Treatment_Cost"] > 20000]
+print("\nPatients with Treatment Cost > ₹20,000")
+print(high_cost.to_string(index=False))
